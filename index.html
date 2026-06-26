@@ -105,6 +105,15 @@
   .hero h1 em { font-style: italic; color: var(--accent); }
   .hero p { font-size: 16px; color: var(--text-2); max-width: 480px; margin: 0 auto; line-height: 1.7; }
 
+  .back-cat-btn {
+    display: inline-flex; align-items: center; gap: 7px; cursor: pointer;
+    background: var(--surface2); border: 1px solid var(--border-md); border-radius: 8px;
+    padding: 8px 14px; font-size: 13.5px; color: var(--text-2); font-family: 'Onest', sans-serif;
+    transition: all 0.15s;
+  }
+  .back-cat-btn:hover { background: #fff; border-color: var(--text-3); color: var(--text); }
+  .back-cat-btn svg { width: 16px; height: 16px; }
+
   /* ─── ROLE SWITCHER ─── */
   .role-wrap { max-width: 700px; margin: 0 auto 3rem; padding: 0 2rem; }
   .role-switcher {
@@ -504,6 +513,14 @@
 
 <!-- FORM AREA -->
 <div id="form-area" style="display:none">
+
+  <!-- НАЗАД К ВЫБОРУ КАТЕГОРИИ -->
+  <div style="max-width:1060px;margin:0 auto;padding:1.25rem 2rem 0">
+    <button class="back-cat-btn" onclick="backToCategory()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Назад к выбору категории
+    </button>
+  </div>
 
   <!-- HERO -->
   <div class="hero">
@@ -919,6 +936,7 @@ const employeeLists = {
     'Абдигазиев Абай Калдыбекович',
     'Абдразаков Тимур Габитович',
     'Дарибаев Тимур Абаевич',
+    'Зуев Олег Сергеевич',
     'Каратаев Дамир Навидуллович',
     'Козленко Марина Владимировна',
     'Колжанов Асыланбек Курманалыулы',
@@ -933,24 +951,20 @@ const employeeLists = {
   ]
 };
 
-// Списки руководителей по категориям
-const managerLists = {
-  aup: [
-    'Литовченко Виталий Сергеевич',
-    'Исмагамбетова Асель Хамитовна',
-    'Каструбина Екатерина Александровна',
-    'Берлабеков Галимжан Саматбекович',
-    'Нагашбаев Салават Кабакович',
-    'Таймасова Диана Витальевна',
-    'Нуртаев Аслан Нуртаевич'
-  ],
-  itr: [
-    'Плаван Алексей Олегович',
-    'Сухов Виталий Александрович',
-    'Кривой Михаил Валентинович',
-    'Колжанов Асыланбек Курманалыулы'
-  ]
-};
+// Общий список руководителей (для ОФИСА и ЗАВОДА)
+const managersAll = [
+  'Берлабеков Галимжан Саматбекович',
+  'Исмагамбетова Асель Хамитовна',
+  'Каструбина Екатерина Александровна',
+  'Колжанов Асыланбек Курманалыулы',
+  'Кривой Михаил Валентинович',
+  'Литовченко Виталий Сергеевич',
+  'Нагашбаев Салават Кабакович',
+  'Нуртаев Аслан Нуртаевич',
+  'Плаван Алексей Олегович',
+  'Сухов Виталий Александрович',
+  'Таймасова Диана Витальевна'
+];
 
 // Пароль на режим «Оценка руководителем» (один раз за сессию)
 const MANAGER_PASSWORD = '4551';
@@ -996,7 +1010,7 @@ function populateManagerList() {
   const sel = document.getElementById('eval-name');
   if (!sel) return;
   const prev = sel.value;
-  const list = managerLists[currentCategory] || [];
+  const list = managersAll;
   sel.innerHTML = '<option value="">— выберите руководителя —</option>' +
     list.map(function (n) { return '<option value="' + n + '">' + n + '</option>'; }).join('') +
     '<option value="__manual__">Нет в списке (вписать вручную)</option>';
